@@ -1,16 +1,14 @@
-# Build Your VPC and Launch a Web Server (AWS) 
+# Lab 3 – Introduction to Amazon Elastic Compute Cloud (EC2)
 
 ## Author
 
-* **Name**:Tharrun D
+* **Name**: Tharrun D
 * **Register Number**: 212224240170
-* **Date of Submission**: 21/05/26
-
 ---
 
 ## Objective
 
-The objective of this experiment is to understand how to design and configure a basic network infrastructure in AWS using a Virtual Private Cloud (VPC). This lab focuses on creating a VPC with a public subnet, configuring an Internet Gateway and route table, launching an EC2 instance, and hosting a simple web server that can be accessed over the internet.
+The objective of this experiment is to understand the fundamentals of Amazon Elastic Compute Cloud (EC2). This lab focuses on launching and managing a virtual server, understanding instance types and AMIs, connecting to an EC2 instance, monitoring its status, and performing basic instance operations such as start, stop, and terminate.
 
 ---
 
@@ -19,105 +17,151 @@ The objective of this experiment is to understand how to design and configure a 
 * Basic understanding of cloud computing concepts
 * AWS account or AWS Academy Lab access
 * Web browser with internet connectivity
+* Basic knowledge of Linux commands (optional)
 
 ---
 
 ## Tools Used
 
 * AWS Management Console
-* Amazon VPC
 * Amazon EC2
-* Internet Gateway
-* Route Table
-* Security Groups
+* Key Pair
+* Security Group
+* SSH Client (PuTTY / Terminal)
 
 ---
 
 ## Tasks Performed
 
-### Task 1: Create a VPC
+### Task 1: Explore Amazon EC2 Dashboard
 
-Create a new Virtual Private Cloud (VPC) with a private IP address range. The VPC acts as a logically isolated network in AWS where all other resources will be deployed.
+Explore the EC2 service dashboard in the AWS Management Console. Observe the different sections such as Instances, AMIs, Instance Types, Key Pairs, Security Groups, and Elastic IPs.
 
-Students should create a VPC with an appropriate CIDR block (for example, 10.0.0.0/16) and assign a meaningful name.
+---
 
+### Task 2: Launch an EC2 Instance
 
-### Task 2: Create a Public Subnet
+Launch a new EC2 instance using Amazon Linux 2 AMI. Select an appropriate instance type (t2.micro) under the free tier. Configure basic settings such as instance name, key pair, and security group.
 
-Create a subnet inside the VPC to host public resources. Enable auto-assign public IPv4 so that instances launched in this subnet receive a public IP address.
+---
 
-The subnet should use a smaller CIDR range (for example, 10.0.1.0/24).
+### Task 3: Configure Security Group
 
+Configure a security group to allow inbound access:
 
-### Task 3: Create and Attach Internet Gateway
+* SSH (Port 22) from your IP address
+* HTTP (Port 80) from anywhere (0.0.0.0/0)
 
-Create an Internet Gateway (IGW) and attach it to the VPC. This allows communication between resources in the VPC and the internet.
+This security group acts as a firewall for the instance.
 
+---
 
-### Task 4: Configure Route Table
+### Task 4: Connect to EC2 Instance
 
-Create a route table and add a default route (0.0.0.0/0) pointing to the Internet Gateway. Associate this route table with the public subnet.
+Connect to the running EC2 instance using SSH. Use the downloaded key pair and connect via terminal or PuTTY.
 
-This step ensures that traffic from the subnet can reach the internet.
+For Amazon Linux:
 
+```
+ssh -i "keyname.pem" ec2-user@<Public-IP>
+```
 
-### Task 5: Create Security Group
+---
 
-Create a security group to act as a virtual firewall for the EC2 instance. Configure inbound rules to allow:
+### Task 5: Perform Basic Instance Operations
 
-SSH on port 22
+Perform the following operations from the EC2 console:
 
-HTTP on port 80
+* Stop the instance
+* Start the instance
+* Reboot the instance
 
+Observe the state changes of the instance.
 
-### Task 6: Launch EC2 Instance
+---
 
-Launch an EC2 instance inside the public subnet using Amazon Linux 2 AMI and a suitable instance type (t2.micro).
+### Task 6: Monitor EC2 Instance
 
-Attach the previously created security group and key pair.
+Monitor the EC2 instance using the Monitoring tab. Observe metrics such as CPU utilization, network in/out, and instance status checks.
 
+---
 
-### Task 7: Configure Web Server
+### Task 7: Terminate EC2 Instance
 
-Install and start a web server (Apache HTTPD) on the EC2 instance using user data or manual commands.
+Terminate the EC2 instance after completing the experiment to avoid unnecessary AWS charges.
 
-Create a simple HTML page and verify that it can be accessed from a web browser using the public IP address of the instance.---
+---
 
 ## Workflow (Student Explanation)
 
-First, I created a VPC in Amazon Web Services. I gave it a CIDR block of 10.0.0.0/16. This VPC acts as my private network where all my resources will be created.
+First, I logged in to the AWS Management Console using my AWS account.
 
-Next, I created a public subnet inside the VPC with CIDR 10.0.1.0/24. I enabled auto-assign public IP so that any instance launched in this subnet will automatically get a public IP address.
+I searched for EC2 in the services section and opened the EC2 Dashboard.
 
-After that, I created an Internet Gateway and attached it to my VPC. This allows my VPC to communicate with the internet.
+I explored different sections like Instances, AMIs, Instance Types, Key Pairs, Security Groups, and Elastic IPs to understand their functions.
 
-Then, I created a route table and added a default route (0.0.0.0/0) pointing to the Internet Gateway. I associated this route table with my public subnet. This step ensures that traffic from my subnet can reach the internet.
+I clicked on the “Launch Instance” button to create a new EC2 instance.
 
-Next, I created a security group which acts as a virtual firewall. I allowed inbound traffic for SSH on port 22 and HTTP on port 80.
+I selected Amazon Linux 2 AMI as the operating system.
 
-After completing the network setup, I launched an EC2 instance using Amazon Linux 2 AMI with instance type t2.micro. I selected my VPC, public subnet, created security group, and key pair.
+I chose the t2.micro instance type because it is eligible for the AWS Free Tier.
 
-Finally, I connected to the EC2 instance using SSH and installed the Apache web server. I started the service and created a simple HTML page. Then I copied the public IP address of the instance and opened it in a web browser. The webpage was displayed successfully.
+I entered a name for my instance to identify it easily.
 
-So, this is how I created a VPC, launched an EC2 instance, and hosted a simple web server in AWS.
+I created a new key pair, selected the PEM format, and downloaded it to my system.
+
+I configured the security group settings.
+
+I allowed SSH access on Port 22 only from my IP address.
+
+I allowed HTTP access on Port 80 from anywhere (0.0.0.0/0).
+
+I reviewed all the configurations and clicked on “Launch Instance.”
+
+After launching, I waited until the instance state changed to “Running.”
+
+I copied the public IP address of the instance from the EC2 dashboard.
+
+I opened the terminal and navigated to the folder where the key pair file was saved.
+
+I connected to the instance using the SSH command:
+ssh -i "keyname.pem" ec2-user@<Public-IP>
+
+I successfully logged in to the Amazon Linux server.
+
+I went back to the EC2 console and selected the instance.
+
+I clicked on “Stop” and observed the instance state changing to “Stopped.”
+
+I clicked on “Start” and observed the state changing back to “Running.”
+
+I also performed the “Reboot” operation and noticed that the instance restarted.
+
+I opened the “Monitoring” tab to check CPU utilization and network metrics.
+
+I observed the status checks to ensure the instance was running properly.
+
+After completing the experiment, I selected the instance and clicked on “Terminate.”
+
+I confirmed the termination and observed that the instance state changed to “Terminated.”
 
 ## Output Screenshots (Attach 3)
 
-### Screenshot 1: VPC and Subnet Details
-<img width="1287" height="748" alt="image" src="https://github.com/user-attachments/assets/a6111f32-8df7-4103-9a6a-bfcb1960c283" />
+### Screenshot 1: EC2 Dashboard / Instance List
+
+<img width="1920" height="1080" alt="Screenshot (293)" src="https://github.com/user-attachments/assets/2f56acfb-2475-46f5-9d59-1ab80b7f9417" />
 
 
+### Screenshot 2: SSH Connection to Instance
 
-### Screenshot 2: EC2 Instance Running
-
-<img width="1248" height="607" alt="image" src="https://github.com/user-attachments/assets/51ebb37b-71ef-47eb-bbfa-442e34ef5c29" />
+<img width="1249" height="694" alt="Screenshot 2026-05-21 084632" src="https://github.com/user-attachments/assets/d15e6d28-3d15-48b5-82ec-2a3587160407" />
 
 
-### Screenshot 3: Web Server Output in Browser
+### Screenshot 3: Instance Monitoring / Status
 
-<img width="1258" height="703" alt="image" src="https://github.com/user-attachments/assets/f0a00592-6294-4b23-8f28-b7554cd3ff9d" />
+<img width="1919" height="1079" alt="Screenshot 2026-05-21 085351" src="https://github.com/user-attachments/assets/31c74a64-6566-4283-be0c-dd43f3249860" />
 
 
 ## Result 
 
-This experiment successfully demonstrated the creation of a custom VPC and deployment of a public-facing web server in AWS. By configuring networking components such as subnets, route tables, and security groups, and by launching an EC2 instance with a web server, the basic architecture of a cloud-hosted application was understood.
+This experiment provided hands-on experience with Amazon EC2 by demonstrating how to launch, connect, manage, and monitor a virtual server in AWS. It helped in understanding the concept of Infrastructure as a Service (IaaS) and how compute resources can be provisioned and controlled on demand in the cloud.
